@@ -33,6 +33,15 @@ namespace RestaurantReservation
                                            ))
                                           .ToListAsync();
         }
+        public async Task<List<MenuItem>> ListOrderedMenuItemsAsync(int reservationId)
+        {
+            return await _context.OrderItems.AsNoTracking()
+                                      .Include(x => x.Order)
+                                      .Where(x => x.Order.ReservationId == reservationId)
+                                      .Include(x => x.MenuItem)
+                                      .Select(x => x.MenuItem)
+                                      .ToListAsync();
+        }
         public async Task<List<Reservation>> GetReservationsByCustomerAsync(int customerId)
         {
             return await _context.Customers.AsNoTracking()

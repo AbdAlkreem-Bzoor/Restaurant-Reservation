@@ -50,7 +50,8 @@ namespace RestaurantReservation.Db.Data.Config
         private static void ConfigureTotalAmount(EntityTypeBuilder<Order> builder)
         {
             builder.Property(x => x.TotalAmount)
-                   .HasColumnName("Total Amount");
+                   .HasColumnName("Total Amount")
+                   .HasColumnType("DECIMAL(15, 2)");
         }
 
         private static void ConfigureOrderDate(EntityTypeBuilder<Order> builder)

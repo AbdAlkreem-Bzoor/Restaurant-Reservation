@@ -23,6 +23,8 @@ namespace RestaurantReservation.Db.Data.Config
             ConfigurePhoneNumber(builder);
 
             builder.ToTable("Customers");
+
+            builder.HasData(SeedData.LoadCustomers());
         }
 
         private static void ConfigurePhoneNumber(EntityTypeBuilder<Customer> builder)

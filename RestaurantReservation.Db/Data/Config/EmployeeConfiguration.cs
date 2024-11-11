@@ -19,6 +19,8 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("Employees");
+
+            builder.HasData(SeedData.LoadEmployees());
         }
 
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<Employee> builder)

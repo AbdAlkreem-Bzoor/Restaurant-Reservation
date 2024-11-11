@@ -21,6 +21,8 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("MenuItems");
+
+            builder.HasData(SeedData.LoadMenuItems());
         }
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<MenuItem> builder)
         {

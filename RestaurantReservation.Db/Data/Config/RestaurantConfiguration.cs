@@ -18,10 +18,11 @@ namespace RestaurantReservation.Db.Data.Config
 
             ConfigurePhoneNumber(builder);
 
-
             builder.ToTable("Restaurants");
+
+            builder.HasData(SeedData.LoadRestaurants());
         }
-      
+
         private static void ConfigurePhoneNumber(EntityTypeBuilder<Restaurant> builder)
         {
             builder.Property(x => x.PhoneNumber)

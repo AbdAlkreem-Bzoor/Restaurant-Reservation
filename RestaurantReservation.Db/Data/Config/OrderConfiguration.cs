@@ -22,8 +22,10 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("Orders");
+
+            builder.HasData(SeedData.LoadOrders());
         }
-        
+
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<Order> builder)
         {
             ReservationOne_To_ManyOrder(builder);

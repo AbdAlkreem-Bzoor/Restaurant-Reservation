@@ -23,8 +23,10 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("Reservations");
+
+            builder.HasData(SeedData.LoadReservations());
         }
-        
+
         private static void ConfigureReservationDate(EntityTypeBuilder<Reservation> builder)
         {
             builder.Property(x => x.ReservationDate)

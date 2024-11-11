@@ -14,6 +14,9 @@ namespace RestaurantReservation.Db.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ReservationCustomerRestaurantDetail> ReservationsCustomerRestaurantDetails { get; set; }
+        public DbSet<EmployeeRestaurantDetail> EmployeeRestaurantDetails { get; set; }
+
         public RestaurantReservationDbContext() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

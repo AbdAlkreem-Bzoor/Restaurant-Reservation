@@ -39,13 +39,5 @@ namespace RestaurantReservation.Db.Data
         {
             throw new NotImplementedException();
         }
-        public async Task<List<CustomerWithPartySizeAbove>> GetCustomersWithLargePartySizeAsync(int partySize)
-        {
-            //var parameter = new SqlParameter("@Size", SqlDbType.Int)
-            //{
-            //    Value = partySize
-            //};
-            return await CustomersWithPartySizeAbove.FromSql($"EXEC dbo.sp_CustomersWithPartySizeAbove {partySize}").ToListAsync();
-        }
     }
 }

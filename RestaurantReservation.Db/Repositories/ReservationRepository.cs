@@ -46,7 +46,7 @@ namespace RestaurantReservation.Db.Repositories
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
         }
-        public async Task<List<Reservation>> GetReservationsByCustomer(int customerId)
+        public async Task<List<Reservation>> GetReservationsByCustomerAsync(int customerId)
         {
             return await _context.Customers.AsNoTracking()
                                     .Include(c => c.Reservations)

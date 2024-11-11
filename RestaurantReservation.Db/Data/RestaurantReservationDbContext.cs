@@ -33,5 +33,11 @@ namespace RestaurantReservation.Db.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RestaurantReservationDbContext).Assembly);
         }
+
+        [DbFunction("fn_CalculateTotalRevenueByRestaurant", Schema = "dbo")]
+        public static decimal CalculateTotalRevenueByRestaurant(int restaurantId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

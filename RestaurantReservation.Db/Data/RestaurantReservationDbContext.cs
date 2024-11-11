@@ -16,7 +16,7 @@ namespace RestaurantReservation.Db.Data
         public DbSet<Table> Tables { get; set; }
         public DbSet<ReservationCustomerRestaurantDetail> ReservationsCustomerRestaurantDetails { get; set; }
         public DbSet<EmployeeRestaurantDetail> EmployeeRestaurantDetails { get; set; }
-
+        public DbSet<CustomerWithPartySizeAbove> CustomersWithPartySizeAbove { get; set; }
         public RestaurantReservationDbContext() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,6 +38,14 @@ namespace RestaurantReservation.Db.Data
         public static decimal CalculateTotalRevenueByRestaurant(int restaurantId)
         {
             throw new NotImplementedException();
+        }
+        public async Task<List<CustomerWithPartySizeAbove>> GetCustomersWithLargePartySizeAsync(int partySize)
+        {
+            //var parameter = new SqlParameter("@Size", SqlDbType.Int)
+            //{
+            //    Value = partySize
+            //};
+            return await CustomersWithPartySizeAbove.FromSql($"EXEC dbo.sp_CustomersWithPartySizeAbove {partySize}").ToListAsync();
         }
     }
 }

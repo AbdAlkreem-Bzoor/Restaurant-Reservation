@@ -23,19 +23,6 @@ namespace RestaurantReservation.Db.Data.Config
             ConfigurePhoneNumber(builder);
 
             builder.ToTable("Customers");
-
-            builder.HasData(LoadCustomers());
-        }
-
-        private static Customer[] LoadCustomers()
-        {
-            return [
-                       new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", PhoneNumber = "555-0101", Reservations = new List<Reservation>() },
-                       new Customer { CustomerId = 2, FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com", PhoneNumber = "555-0102", Reservations = new List<Reservation>() },
-                       new Customer { CustomerId = 3, FirstName = "Alice", LastName = "Johnson", Email = "alice.johnson@example.com", PhoneNumber = "555-0103", Reservations = new List<Reservation>() },
-                       new Customer { CustomerId = 4, FirstName = "Bob", LastName = "Brown", Email = "bob.brown@example.com", PhoneNumber = "555-0104", Reservations = new List<Reservation>() },
-                       new Customer { CustomerId = 5, FirstName = "Charlie", LastName = "Davis", Email = "charlie.davis@example.com", PhoneNumber = "555-0105", Reservations = new List<Reservation>() }
-                   ];
         }
 
         private static void ConfigurePhoneNumber(EntityTypeBuilder<Customer> builder)

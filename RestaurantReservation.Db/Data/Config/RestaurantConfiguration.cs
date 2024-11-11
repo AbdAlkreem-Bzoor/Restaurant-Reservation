@@ -20,19 +20,8 @@ namespace RestaurantReservation.Db.Data.Config
 
 
             builder.ToTable("Restaurants");
-
-            builder.HasData(LoadRestaurants());
         }
-        private static Restaurant[] LoadRestaurants()
-        {
-            return [
-                       new Restaurant { RestaurantId = 1, Name = "Burger Haven", Address = "123 Burger St.", PhoneNumber = "555-1111", Tables = new List<Table>(), Reservations = new List<Reservation>(), Employees = new List<Employee>(), MenuItems = new List<MenuItem>(), OpeningHours = new TimeSpan(8, 0, 0) },
-                       new Restaurant { RestaurantId = 2, Name = "Pasta Palace", Address = "456 Pasta Rd.", PhoneNumber = "555-2222", Tables = new List<Table>(), Reservations = new List<Reservation>(), Employees = new List<Employee>(), MenuItems = new List<MenuItem>(), OpeningHours = new TimeSpan(8, 0, 0) },
-                       new Restaurant { RestaurantId = 3, Name = "Seafood Bistro", Address = "789 Seafood Blvd.", PhoneNumber = "555-3333", Tables = new List<Table>(), Reservations = new List<Reservation>(), Employees = new List<Employee>(), MenuItems = new List<MenuItem>(), OpeningHours = new TimeSpan(8, 0, 0) },
-                       new Restaurant { RestaurantId = 4, Name = "Steakhouse Grill", Address = "321 Steak Dr.", PhoneNumber = "555-4444", Tables = new List<Table>(), Reservations = new List<Reservation>(), Employees = new List<Employee>(), MenuItems = new List<MenuItem>(), OpeningHours = new TimeSpan(8, 0, 0) },
-                       new Restaurant { RestaurantId = 5, Name = "Vegan Delight", Address = "654 Green Ln.", PhoneNumber = "555-5555", Tables = new List<Table>(), Reservations = new List<Reservation>(), Employees = new List<Employee>(), MenuItems = new List<MenuItem>(), OpeningHours = new TimeSpan(8, 0, 0) }
-                   ];
-        }
+      
         private static void ConfigurePhoneNumber(EntityTypeBuilder<Restaurant> builder)
         {
             builder.Property(x => x.PhoneNumber)

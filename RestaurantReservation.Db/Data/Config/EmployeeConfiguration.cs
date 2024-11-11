@@ -19,19 +19,8 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("Employees");
+        }
 
-            builder.HasData(LoadEmployees());
-        }
-        private static Employee[] LoadEmployees()
-        {
-            return [
-                       new Employee { EmployeeId = 1, RestaurantId = 1, FirstName = "Sophia", LastName = "Lee", Position = "Manager", Orders = new List<Order>() },
-                       new Employee { EmployeeId = 2, RestaurantId = 1, FirstName = "James", LastName = "King", Position = "Waiter", Orders = new List<Order>() },
-                       new Employee { EmployeeId = 3, RestaurantId = 2, FirstName = "Oliver", LastName = "Scott", Position = "Cook", Orders = new List<Order>() },
-                       new Employee { EmployeeId = 4, RestaurantId = 2, FirstName = "Liam", LastName = "Evans", Position = "Waiter", Orders = new List<Order>() },
-                       new Employee { EmployeeId = 5, RestaurantId = 3, FirstName = "Mia", LastName = "Taylor", Position = "Waitress", Orders = new List<Order>() }
-                   ];
-        }
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<Employee> builder)
         {
             RestaurantOne_To_ManyEmployee(builder);

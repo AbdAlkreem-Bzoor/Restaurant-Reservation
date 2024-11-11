@@ -17,20 +17,8 @@ namespace RestaurantReservation.Db.Data.Config
             CostructRelationsBetweenEntities(builder);
 
             builder.ToTable("Tables");
-
-
-            builder.HasData(LoadTables());
         }
-        private static Table[] LoadTables()
-        {
-            return [
-                       new Table { TableId = 1, RestaurantId = 1, Capacity = 4, Reservations = new List<Reservation>() },
-                       new Table { TableId = 2, RestaurantId = 1, Capacity = 2, Reservations = new List<Reservation>() },
-                       new Table { TableId = 3, RestaurantId = 2, Capacity = 4, Reservations = new List<Reservation>() },
-                       new Table { TableId = 4, RestaurantId = 2, Capacity = 6, Reservations = new List<Reservation>() },
-                       new Table { TableId = 5, RestaurantId = 3, Capacity = 8, Reservations = new List<Reservation>() }
-                   ];
-        }
+        
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<Table> builder)
         {
             RestaurantOne_To_ManyTable(builder);

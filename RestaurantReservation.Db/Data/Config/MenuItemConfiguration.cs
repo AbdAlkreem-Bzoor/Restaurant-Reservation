@@ -22,17 +22,7 @@ namespace RestaurantReservation.Db.Data.Config
 
             builder.ToTable("MenuItems");
 
-            builder.HasData(LoadMenuItems());
-        }
-        private static MenuItem[] LoadMenuItems()
-        {
-            return [
-                       new MenuItem { ItemId = 1, RestaurantId = 1, Name = "Cheeseburger", Description = "Beef patty with cheese", Price = 12.99m, OrderItems = new List<OrderItem>() },
-                       new MenuItem { ItemId = 2, RestaurantId = 1, Name = "Caesar Salad", Description = "Fresh lettuce with Caesar dressing", Price = 8.99m, OrderItems = new List<OrderItem>() },
-                       new MenuItem { ItemId = 3, RestaurantId = 2, Name = "Spaghetti Carbonara", Description = "Spaghetti with creamy carbonara sauce", Price = 14.99m, OrderItems = new List<OrderItem>() },
-                       new MenuItem { ItemId = 4, RestaurantId = 2, Name = "Margherita Pizza", Description = "Tomato, mozzarella, and basil pizza", Price = 11.99m, OrderItems = new List<OrderItem>() },
-                       new MenuItem { ItemId = 5, RestaurantId = 3, Name = "Salmon Sashimi", Description = "Fresh slices of salmon", Price = 18.99m, OrderItems = new List<OrderItem>() }
-                   ];
+            builder.HasData(SeedData.LoadMenuItems());
         }
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<MenuItem> builder)
         {

@@ -23,18 +23,9 @@ namespace RestaurantReservation.Db.Data.Config
 
             builder.ToTable("Orders");
 
-            builder.HasData(LoadOrders());
+            builder.HasData(SeedData.LoadOrders());
         }
-        private static Order[] LoadOrders()
-        {
-            return [
-                       new Order { OrderId = 1, ReservationId = 1, EmployeeId = 1, OrderDate = new DateOnly(2024, 11, 7), TotalAmount = 20, OrderItems = new List<OrderItem>() },
-                       new Order { OrderId = 2, ReservationId = 2, EmployeeId = 2, OrderDate = new DateOnly(2024, 11, 8), TotalAmount = 25, OrderItems = new List<OrderItem>() },
-                       new Order { OrderId = 3, ReservationId = 3, EmployeeId = 3, OrderDate = new DateOnly(2024, 11, 9), TotalAmount = 18, OrderItems = new List<OrderItem>() },
-                       new Order { OrderId = 4, ReservationId = 4, EmployeeId = 4, OrderDate = new DateOnly(2024, 11, 10), TotalAmount = 30, OrderItems = new List<OrderItem>() },
-                       new Order { OrderId = 5, ReservationId = 5, EmployeeId = 5, OrderDate = new DateOnly(2024, 11, 11), TotalAmount = 22, OrderItems = new List<OrderItem>() }
-                   ];
-        }
+
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<Order> builder)
         {
             ReservationOne_To_ManyOrder(builder);
@@ -61,7 +52,8 @@ namespace RestaurantReservation.Db.Data.Config
         private static void ConfigureTotalAmount(EntityTypeBuilder<Order> builder)
         {
             builder.Property(x => x.TotalAmount)
-                   .HasColumnName("Total Amount");
+                   .HasColumnName("Total Amount")
+                   .HasColumnType("DECIMAL(15, 2)");
         }
 
         private static void ConfigureOrderDate(EntityTypeBuilder<Order> builder)

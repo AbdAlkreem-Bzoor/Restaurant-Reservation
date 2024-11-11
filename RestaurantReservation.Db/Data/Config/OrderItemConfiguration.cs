@@ -20,18 +20,9 @@ namespace RestaurantReservation.Db.Data.Config
 
             builder.ToTable("OrderItems");
 
-            builder.HasData(LoadOrderItems());
+            builder.HasData(SeedData.LoadOrderItems());
         }
-        private static OrderItem[] LoadOrderItems()
-        {
-            return [
-                       new OrderItem { OrderItemId = 1, OrderId = 1, ItemId = 1, Quantity = 2 },
-                       new OrderItem { OrderItemId = 2, OrderId = 1, ItemId = 2, Quantity = 1 },
-                       new OrderItem { OrderItemId = 3, OrderId = 2, ItemId = 3, Quantity = 1 },
-                       new OrderItem { OrderItemId = 4, OrderId = 2, ItemId = 4, Quantity = 1 },
-                       new OrderItem { OrderItemId = 5, OrderId = 3, ItemId = 5, Quantity = 2 }
-                   ];
-        }
+
         private static void CostructRelationsBetweenEntities(EntityTypeBuilder<OrderItem> builder)
         {
             OrderOne_To_ManyOrderItem(builder);

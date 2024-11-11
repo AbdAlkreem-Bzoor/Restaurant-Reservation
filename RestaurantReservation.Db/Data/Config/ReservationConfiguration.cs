@@ -24,18 +24,9 @@ namespace RestaurantReservation.Db.Data.Config
 
             builder.ToTable("Reservations");
 
-            builder.HasData(LoadReservations());
+            builder.HasData(SeedData.LoadReservations());
         }
-        private static Reservation[] LoadReservations()
-        {
-            return [
-                       new Reservation { ReservationId = 1, CustomerId = 1, RestaurantId = 1, TableId = 1, ReservationDate = new DateOnly(2024, 11, 8), PartySize = 4, Orders = new List<Order>() },
-                       new Reservation { ReservationId = 2, CustomerId = 2, RestaurantId = 1, TableId = 2, ReservationDate = new DateOnly(2024, 11, 9), PartySize = 2, Orders = new List<Order>() },
-                       new Reservation { ReservationId = 3, CustomerId = 3, RestaurantId = 2, TableId = 3, ReservationDate = new DateOnly(2024, 11, 10), PartySize = 3, Orders = new List<Order>() },
-                       new Reservation { ReservationId = 4, CustomerId = 4, RestaurantId = 2, TableId = 4, ReservationDate = new DateOnly(2024, 11, 11), PartySize = 5, Orders = new List<Order>() },
-                       new Reservation { ReservationId = 5, CustomerId = 5, RestaurantId = 3, TableId = 5, ReservationDate = new DateOnly(2024, 11, 12), PartySize = 6, Orders = new List<Order>() }
-                   ];
-        }
+
         private static void ConfigureReservationDate(EntityTypeBuilder<Reservation> builder)
         {
             builder.Property(x => x.ReservationDate)

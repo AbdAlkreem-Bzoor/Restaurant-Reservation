@@ -42,6 +42,12 @@ namespace RestaurantReservation
                                       .Select(x => x.MenuItem)
                                       .ToListAsync();
         }
+        public async Task<decimal> CalculateAverageOrderAmountAsync(int employeeId)
+        {
+            return await _context.Orders.AsNoTracking()
+                                  .Where(x => x.EmployeeId == employeeId)
+                                  .AverageAsync(x => x.TotalAmount ?? 0.00m);
+        }
         public async Task<List<Reservation>> GetReservationsByCustomerAsync(int customerId)
         {
             return await _context.Customers.AsNoTracking()

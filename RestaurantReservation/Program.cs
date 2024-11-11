@@ -72,6 +72,10 @@ namespace RestaurantReservation
 
                 //foreach (var item in result) Console.WriteLine(item);
 
+                //await new CustomerRepository(context).CreateCustomerAsync(new Customer { FirstName = "A", LastName = "Z", Email = "asdf@example.com"});
+                //await new CustomerRepository(context).UpdateCustomerAsync(new Customer { CustomerId = 6, FirstName = "ABC", LastName = "ZYX", Email = "asdf@example.com" });
+                await new CustomerRepository(context).DeleteCustomerAsync(6);
+
 
             }
 

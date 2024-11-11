@@ -17,6 +17,14 @@ namespace RestaurantReservation
                                            .Where(e => e.Position == "Manager")
                                            .ToListAsync();
         }
+        public async Task<List<Reservation>> GetReservationsByCustomerAsync(int customerId)
+        {
+            return await _context.Customers.AsNoTracking()
+                                    .Include(c => c.Reservations)
+                                    .Where(c => c.CustomerId == customerId)
+                                    .SelectMany(c => c.Reservations)
+                                    .ToListAsync();
+        }
         public async Task CreateCustomerAsync(Customer customer)
         {
             await _context.Customers.AddAsync(customer);

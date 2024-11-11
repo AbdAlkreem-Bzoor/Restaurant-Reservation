@@ -1,4 +1,5 @@
-﻿using RestaurantReservation.Db.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Data;
 using RestaurantReservation.Db.Entities;
 
 namespace RestaurantReservation
@@ -9,6 +10,12 @@ namespace RestaurantReservation
         public static void Main(string[] args)
         {
             
+        }
+        public async Task<List<Employee>> ListManagersAsync()
+        {
+            return await _context.Employees.AsNoTracking()
+                                           .Where(e => e.Position == "Manager")
+                                           .ToListAsync();
         }
         public async Task CreateCustomerAsync(Customer customer)
         {

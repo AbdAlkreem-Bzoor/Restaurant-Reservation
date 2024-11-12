@@ -74,7 +74,13 @@ namespace RestaurantReservation
 
                 //await new CustomerRepository(context).CreateCustomerAsync(new Customer { FirstName = "A", LastName = "Z", Email = "asdf@example.com"});
                 //await new CustomerRepository(context).UpdateCustomerAsync(new Customer { CustomerId = 6, FirstName = "ABC", LastName = "ZYX", Email = "asdf@example.com" });
-                await new CustomerRepository(context).DeleteCustomerAsync(6);
+                //await new CustomerRepository(context).DeleteCustomerAsync(6);
+
+                //await context.Tables.AddAsync(new Table { Capacity = 10, RestaurantId = 1 });
+                //await context.SaveChangesAsync();
+                //Console.ReadKey();
+                //var result = await new TableRepository(context).GetAvailableTablesAsync();
+                //foreach (var item in result) Console.WriteLine(item);
 
 
             }
@@ -83,3 +89,5 @@ namespace RestaurantReservation
         }
     }
 }
+
+

@@ -10,14 +10,14 @@ namespace RestaurantReservation.Db.Entities
     public class Customer
     {
         public int CustomerId { get; set; } // PK
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Email { get; set; }
-        public string? PhoneNumber { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string PhoneNumber { get; set; } = null!;
         public ICollection<Reservation> Reservations { get; set; } = [];
         public override string ToString()
         {
-            return $"[{CustomerId}] {FirstName} {LastName}";
+            return $"[{CustomerId}] {FirstName} {LastName} | {Email} | {PhoneNumber}";
         }
     }    
 }

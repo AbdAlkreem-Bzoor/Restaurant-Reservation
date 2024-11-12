@@ -36,12 +36,16 @@ namespace RestaurantReservation.Db.Data.Config
 
         private static void ConfigureCapacity(EntityTypeBuilder<Table> builder)
         {
-            builder.Property(x => x.Capacity);
+            builder.Property(x => x.Capacity)
+                   .IsRequired();
         }
 
         private static void ConfigureRestaurantIdFK(EntityTypeBuilder<Table> builder)
         {
-            builder.Property(x => x.RestaurantId);
+            builder.Property(x => x.RestaurantId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.RestaurantId).HasDatabaseName("IX_Table_RestaurantId");
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Table> builder)

@@ -12,9 +12,10 @@
         public DateOnly ReservationDate { get; set; }
         public byte PartySize { get; set; }
         public ICollection<Order> Orders { get; set; } = [];
+        public ICollection<ReservationStatus> ReservationStatus { get; set; } = [];
         public override string ToString()
         {
-            return $"Reservation {ReservationId} at {ReservationDate}";
+            return $"Reservation ID : {ReservationId}, Reservation Date : {ReservationDate}";
         }
     }
 }

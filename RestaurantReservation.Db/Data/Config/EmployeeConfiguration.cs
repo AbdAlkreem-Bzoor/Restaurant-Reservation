@@ -44,18 +44,23 @@ namespace RestaurantReservation.Db.Data.Config
 
         private static void ConfigureRestaurantIdFK(EntityTypeBuilder<Employee> builder)
         {
-            builder.Property(x => x.RestaurantId);
+            builder.Property(x => x.RestaurantId)
+                   .IsRequired();
+
+            builder.HasIndex("RestaurantId").HasDatabaseName("IX_Employee_RestaurantId");
         }
 
         private static void ConfigureName(EntityTypeBuilder<Employee> builder)
         {
             builder.Property(x => x.FirstName)
                    .HasColumnName("First Name")
-                   .HasMaxLength(45);
+                   .HasMaxLength(45)
+                   .IsRequired();
 
             builder.Property(x => x.LastName)
                    .HasColumnName("Last Name")
-                   .HasMaxLength(45);
+                   .HasMaxLength(45)
+                   .IsRequired();
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Employee> builder)

@@ -53,24 +53,33 @@ namespace RestaurantReservation.Db.Data.Config
         {
             builder.Property(x => x.TotalAmount)
                    .HasColumnName("Total Amount")
-                   .HasColumnType("DECIMAL(15, 2)");
+                   .HasColumnType("DECIMAL(15, 2)")
+                   .IsRequired();
         }
 
         private static void ConfigureOrderDate(EntityTypeBuilder<Order> builder)
         {
             builder.Property(x => x.OrderDate)
                    .HasColumnType("DATE")
-                   .HasColumnName("Order Date");
+                   .HasColumnName("Order Date")
+                   .IsRequired();
         }
 
         private static void ConfigureReservationIdFK(EntityTypeBuilder<Order> builder)
         {
-            builder.Property(x => x.ReservationId);
+            builder.Property(x => x.ReservationId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.ReservationId).HasDatabaseName("IX_Order_ReservationId");
+
         }
 
         private static void ConfigureEmployeeIdFK(EntityTypeBuilder<Order> builder)
         {
-            builder.Property(x => x.EmployeeId);
+            builder.Property(x => x.EmployeeId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.EmployeeId).HasDatabaseName("IX_Order_EmployeeId");
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Order> builder)

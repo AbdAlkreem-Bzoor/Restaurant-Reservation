@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantReservation.Db.Data;
 
@@ -11,9 +12,11 @@ using RestaurantReservation.Db.Data;
 namespace RestaurantReservation.Db.Migrations
 {
     [DbContext(typeof(RestaurantReservationDbContext))]
-    partial class RestaurantReservationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112114316_Added-Index-For-Each-FK-And-IsRequired-For-Some-Properties")]
+    partial class AddedIndexForEachFKAndIsRequiredForSomeProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -576,71 +579,6 @@ namespace RestaurantReservation.Db.Migrations
                     b.ToView("ReservationsCustomerRestaurantDetails", (string)null);
                 });
 
-            modelBuilder.Entity("RestaurantReservation.Db.Entities.ReservationStatus", b =>
-                {
-                    b.Property<int>("ReservationStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationStatusId"));
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Status");
-
-                    b.Property<DateOnly>("StatusDate")
-                        .HasColumnType("DATE")
-                        .HasColumnName("Status Date");
-
-                    b.HasKey("ReservationStatusId");
-
-                    b.HasIndex("ReservationId")
-                        .HasDatabaseName("IX_ReservationsStatus_ReservationId");
-
-                    b.ToTable("ReservationsStatus", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ReservationStatusId = 1,
-                            ReservationId = 1,
-                            Status = "NotAttended",
-                            StatusDate = new DateOnly(2024, 11, 12)
-                        },
-                        new
-                        {
-                            ReservationStatusId = 2,
-                            ReservationId = 2,
-                            Status = "Completed",
-                            StatusDate = new DateOnly(2024, 11, 10)
-                        },
-                        new
-                        {
-                            ReservationStatusId = 3,
-                            ReservationId = 3,
-                            Status = "Cancelled",
-                            StatusDate = new DateOnly(2024, 11, 9)
-                        },
-                        new
-                        {
-                            ReservationStatusId = 4,
-                            ReservationId = 4,
-                            Status = "Confirmed",
-                            StatusDate = new DateOnly(2024, 11, 11)
-                        },
-                        new
-                        {
-                            ReservationStatusId = 5,
-                            ReservationId = 5,
-                            Status = "Pending",
-                            StatusDate = new DateOnly(2024, 11, 12)
-                        });
-                });
-
             modelBuilder.Entity("RestaurantReservation.Db.Entities.Restaurant", b =>
                 {
                     b.Property<int>("RestaurantId")
@@ -855,17 +793,6 @@ namespace RestaurantReservation.Db.Migrations
                     b.Navigation("Table");
                 });
 
-            modelBuilder.Entity("RestaurantReservation.Db.Entities.ReservationStatus", b =>
-                {
-                    b.HasOne("RestaurantReservation.Db.Entities.Reservation", "Reservation")
-                        .WithMany("ReservationStatus")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
-                });
-
             modelBuilder.Entity("RestaurantReservation.Db.Entities.Table", b =>
                 {
                     b.HasOne("RestaurantReservation.Db.Entities.Restaurant", "Restaurant")
@@ -900,8 +827,6 @@ namespace RestaurantReservation.Db.Migrations
             modelBuilder.Entity("RestaurantReservation.Db.Entities.Reservation", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("ReservationStatus");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Entities.Restaurant", b =>

@@ -7,5 +7,9 @@
         public Restaurant Restaurant { get; set; } = null!;
         public int Capacity { get; set; }
         public ICollection<Reservation> Reservations { get; set; } = [];
+        public override string ToString()
+        {
+            return $"Table ID : {TableId} | {nameof(Capacity)} : {Capacity}";
+        }
     }
 }

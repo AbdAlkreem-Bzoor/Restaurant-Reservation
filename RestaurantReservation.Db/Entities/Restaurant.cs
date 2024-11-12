@@ -3,7 +3,7 @@
     public class Restaurant
     {
         public int RestaurantId { get; set; } // PK
-        public string? Name { get; set; }
+        public string Name { get; set; } = null!;
         public string? Address { get; set; }
         public string? PhoneNumber { get; set; }
         public TimeSpan? OpeningHours { get; set; }
@@ -13,7 +13,7 @@
         public ICollection<MenuItem> MenuItems { get; set; } = [];
         public override string ToString()
         {
-            return $"[{RestaurantId}] {Name}";
+            return $"[{RestaurantId}] {Name} | {Address} | {PhoneNumber} | {OpeningHours}";
         }
     }
 }

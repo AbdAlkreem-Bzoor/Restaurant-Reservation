@@ -90,6 +90,16 @@ namespace RestaurantReservation.Db.Data
                        new Table { TableId = 5, RestaurantId = 3, Capacity = 8, Reservations = new List<Reservation>() }
                    ];
         }
+        public static ReservationStatus[] LoadReservationsStatus()
+        {
+            return [
+                     new ReservationStatus{ReservationStatusId = 1, ReservationId = 1, Status = ReservationStatusType.NotAttended, StatusDate = new DateOnly(2024, 11, 12) },
+                     new ReservationStatus{ReservationStatusId = 2, ReservationId = 2, Status = ReservationStatusType.Completed, StatusDate = new DateOnly(2024, 11, 10) },
+                     new ReservationStatus{ReservationStatusId = 3, ReservationId = 3, Status = ReservationStatusType.Cancelled, StatusDate = new DateOnly(2024, 11, 9) },
+                     new ReservationStatus{ReservationStatusId = 4, ReservationId = 4, Status = ReservationStatusType.Confirmed, StatusDate = new DateOnly(2024, 11, 11) },
+                     new ReservationStatus{ReservationStatusId = 5, ReservationId = 5, Status = ReservationStatusType.Pending, StatusDate = new DateOnly(2024, 11, 12) }
+                   ];
+        }
         public static async Task AddSeedData(RestaurantReservationDbContext context)
         {
             await context.Database.EnsureCreatedAsync();
@@ -133,8 +143,15 @@ namespace RestaurantReservation.Db.Data
             {
                 await context.Set<Table>().AddRangeAsync(LoadTables());
             }
-            
+
+            if (!await context.ReservationsStatus.AnyAsync())
+            {
+                await context.Set<ReservationStatus>().AddRangeAsync(LoadReservationsStatus());
+            }
+
             await context.SaveChangesAsync();
         }
+
+        
     }
 }

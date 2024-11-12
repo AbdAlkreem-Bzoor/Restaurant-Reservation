@@ -1,4 +1,5 @@
-﻿using RestaurantReservation.Db.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Data;
 using RestaurantReservation.Db.Entities;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,34 @@ namespace RestaurantReservation.Db.Repositories
 
             _context.Tables.Remove(table);
             await _context.SaveChangesAsync();
+        }
+        public async Task<List<Table>> GetAvailableTablesAsync()
+        {
+            var allTables = await _context.Tables
+                                          .AsNoTracking()
+                                          .ToListAsync();
+
+            var reservedTables = await _context.Reservations.Include(x => x.Table)
+                                                            .Select(x => x.Table)
+                                                            .Distinct()
+                                                            .ToListAsync();
+
+            return allTables.Except(reservedTables, new TableComparer())
+                            .ToList();
+        }
+    }
+    public class TableComparer : IEqualityComparer<Table>
+    {
+        public bool Equals(Table? x, Table? y)
+        {
+            if (x is null || y is null) return false;
+
+            return x.TableId == y.TableId;
+        }
+
+        public int GetHashCode(Table obj)
+        {
+            return obj.TableId.GetHashCode();
         }
     }
 }

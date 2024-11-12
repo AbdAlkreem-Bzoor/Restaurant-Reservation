@@ -54,11 +54,33 @@ namespace RestaurantReservation.Db.Repositories
                                     .SelectMany(c => c.Reservations)
                                     .ToListAsync();
         }
-        public async Task<List<ReservationCustomerRestaurantDetail>> 
+        public async Task<List<ReservationCustomerRestaurantDetail>>
             ReservationsWithCustomerAndRestaurantAsync()
         {
             return await _context.ReservationsCustomerRestaurantDetails.AsNoTracking()
                                                                        .ToListAsync();
         }
+        public async Task<List<int>> FindReservationsWithoutOrders()
+        {
+            return await _context.Reservations.Include(x => x.Orders)
+                                              .Where(x => x.Orders.Count == 0)
+                                              .Select(x => x.ReservationId)
+                                              .ToListAsync();
+        }
+        public async Task<List<int>> FindReservationsByPredicateOnDate(DateOnly date,
+            Func<DateOnly, DateOnly, bool> predicate)
+        {
+            return await _context.Reservations
+                                 .Where(
+                                        x =>
+                                        predicate(x.ReservationDate, date)
+                                       )
+                                 .Select(x => x.ReservationId)
+                                 .ToListAsync();
+        }
     }
+
 }
+
+
+

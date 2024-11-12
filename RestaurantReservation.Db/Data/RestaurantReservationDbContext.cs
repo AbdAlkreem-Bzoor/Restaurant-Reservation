@@ -14,6 +14,7 @@ namespace RestaurantReservation.Db.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ReservationStatus> ReservationsStatus { get; set; }
         public DbSet<ReservationCustomerRestaurantDetail> ReservationsCustomerRestaurantDetails { get; set; }
         public DbSet<EmployeeRestaurantDetail> EmployeeRestaurantDetails { get; set; }
         public DbSet<CustomerWithPartySizeAbove> CustomersWithPartySizeAbove { get; set; }

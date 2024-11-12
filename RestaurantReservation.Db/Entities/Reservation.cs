@@ -14,7 +14,7 @@
         public ICollection<Order> Orders { get; set; } = [];
         public override string ToString()
         {
-            return $"Reservation {ReservationId} at {ReservationDate}";
+            return $"Reservation ID : {ReservationId}, Reservation Date : {ReservationDate}";
         }
     }
 }

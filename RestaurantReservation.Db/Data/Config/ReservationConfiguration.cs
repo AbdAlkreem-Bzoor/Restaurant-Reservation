@@ -31,28 +31,39 @@ namespace RestaurantReservation.Db.Data.Config
         {
             builder.Property(x => x.ReservationDate)
                    .HasColumnType("DATE")
-                   .HasColumnName("Reservation Date");
+                   .HasColumnName("Reservation Date")
+                   .IsRequired();
         }
 
         private static void ConfigurePartySize(EntityTypeBuilder<Reservation> builder)
         {
             builder.Property(x => x.PartySize)
-                   .HasColumnName("Party Size");
+                   .HasColumnName("Party Size")
+                   .IsRequired();
         }
 
         private static void ConfigureTableIdFK(EntityTypeBuilder<Reservation> builder)
         {
-            builder.Property(x => x.TableId);
+            builder.Property(x => x.TableId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.TableId).HasDatabaseName("IX_Reservation_TableId");
         }
 
         private static void ConfigureRestaurantIdFK(EntityTypeBuilder<Reservation> builder)
         {
-            builder.Property(x => x.RestaurantId);
+            builder.Property(x => x.RestaurantId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.RestaurantId).HasDatabaseName("IX_Reservation_RestaurantId");
         }
 
         private static void ConfigureCustomerIdFK(EntityTypeBuilder<Reservation> builder)
         {
-            builder.Property(x => x.CustomerId);
+            builder.Property(x => x.CustomerId)
+                .IsRequired();
+
+            builder.HasIndex(x => x.CustomerId).HasDatabaseName("IX_Reservation_CustomerId");
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Reservation> builder)

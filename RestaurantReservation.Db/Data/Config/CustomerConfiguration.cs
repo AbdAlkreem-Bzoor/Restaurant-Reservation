@@ -39,18 +39,21 @@ namespace RestaurantReservation.Db.Data.Config
         {
             builder.Property(x => x.Email)
                    .HasColumnType("VARCHAR")
-                   .HasMaxLength(320);
+                   .HasMaxLength(320)
+                   .IsRequired();
         }
 
         private static void ConfigureName(EntityTypeBuilder<Customer> builder)
         {
             builder.Property(x => x.FirstName)
                    .HasColumnName("First Name")
-                   .HasMaxLength(45);
+                   .HasMaxLength(45)
+                   .IsRequired();
 
             builder.Property(x => x.LastName)
                    .HasColumnName("Last Name")
-                   .HasMaxLength(45);
+                   .HasMaxLength(45)
+                   .IsRequired();
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Customer> builder)

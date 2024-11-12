@@ -47,17 +47,24 @@ namespace RestaurantReservation.Db.Data.Config
 
         private static void ConfigureQuantity(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.Property(x => x.Quantity);
+            builder.Property(x => x.Quantity)
+                .IsRequired();
         }
 
         private static void ConfigureItemIdFK(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.Property(x => x.ItemId);
+            builder.Property(x => x.ItemId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.ItemId).HasDatabaseName("IX_OrderItem_ItemId");
         }
 
         private static void ConfigureOrderIdFK(EntityTypeBuilder<OrderItem> builder)
         {
-            builder.Property(x => x.OrderId);
+            builder.Property(x => x.OrderId)
+                   .IsRequired();
+
+            builder.HasIndex(x => x.OrderId).HasDatabaseName("IX_OrderItem_OrderId");
         }
 
         private static void ConfigurePK(EntityTypeBuilder<OrderItem> builder)

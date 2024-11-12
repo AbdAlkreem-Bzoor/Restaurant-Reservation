@@ -66,7 +66,7 @@ namespace RestaurantReservation.Db.Repositories
         {
             return await _context.Orders.AsNoTracking()
                                   .Where(x => x.EmployeeId == employeeId)
-                                  .AverageAsync(x => x.TotalAmount ?? 0.00m);
+                                  .AverageAsync(x => x.TotalAmount);
         }
     }
 }

@@ -46,7 +46,8 @@ namespace RestaurantReservation.Db.Data.Config
         private static void ConfigureName(EntityTypeBuilder<Restaurant> builder)
         {
             builder.Property(x => x.Name)
-                   .HasMaxLength(100);
+                   .HasMaxLength(100)
+                   .IsRequired();
         }
 
         private static void ConfigurePK(EntityTypeBuilder<Restaurant> builder)

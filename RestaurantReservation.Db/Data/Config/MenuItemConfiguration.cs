@@ -39,7 +39,10 @@ namespace RestaurantReservation.Db.Data.Config
 
         private static void ConfigureRestaurantIdFK(EntityTypeBuilder<MenuItem> builder)
         {
-            builder.Property(x => x.RestaurantId);
+            builder.Property(x => x.RestaurantId)
+                   .IsRequired();
+
+            builder.HasIndex("RestaurantId").HasDatabaseName("IX_MenuItem_RestaurantId");
         }
 
         private static void ConfigurePrice(EntityTypeBuilder<MenuItem> builder)
@@ -57,7 +60,8 @@ namespace RestaurantReservation.Db.Data.Config
         private static void ConfigureName(EntityTypeBuilder<MenuItem> builder)
         {
             builder.Property(x => x.Name)
-                   .HasMaxLength(100);
+                   .HasMaxLength(100)
+                   .IsRequired();
         }
 
         private static void ConfigurePK(EntityTypeBuilder<MenuItem> builder)

@@ -149,9 +149,59 @@ namespace RestaurantReservation.Db.Data
                 await context.Set<ReservationStatus>().AddRangeAsync(LoadReservationsStatus());
             }
 
+            if (!await context.Users.AnyAsync())
+            {
+                await context.Set<User>().AddRangeAsync(LoadUsers());
+            }
+
             await context.SaveChangesAsync();
         }
 
-        
+        public static User[] LoadUsers()
+        {
+            return
+            [
+                  new User
+                  {
+                      Id = 1,
+                      UserName = "john_doe",
+                      Email = "john@example.com",
+                      Password = "Password123",
+                      Role = UserRole.Customer
+                  },
+                  new User
+                  {
+                      Id = 2,
+                      UserName = "sarah_smith",
+                      Email = "sarah@example.com",
+                      Password = "Password123",
+                      Role = UserRole.Employee
+                  },
+                  new User
+                  {
+                      Id = 3,
+                      UserName = "michael_jones",
+                      Email = "michael@example.com",
+                      Password = "Password123",
+                      Role = UserRole.ResturantBoss
+                  },
+                  new User
+                  {
+                      Id = 4,
+                      UserName = "alice_johnson",
+                      Email = "alice@example.com",
+                      Password = "Password123",
+                      Role = UserRole.Admin
+                  },
+                  new User
+                  {
+                      Id = 5,
+                      UserName = "david_white",
+                      Email = "david@example.com",
+                      Password = "Password123",
+                      Role = UserRole.Customer
+                  }
+            ];
+        }
     }
 }

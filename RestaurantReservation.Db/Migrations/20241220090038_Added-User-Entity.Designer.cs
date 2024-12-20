@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantReservation.Db.Data;
 
@@ -11,9 +12,11 @@ using RestaurantReservation.Db.Data;
 namespace RestaurantReservation.Db.Migrations
 {
     [DbContext(typeof(RestaurantReservationDbContext))]
-    partial class RestaurantReservationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241220090038_Added-User-Entity")]
+    partial class AddedUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -792,15 +795,13 @@ namespace RestaurantReservation.Db.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Role");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("nvarchar(45)")
                         .HasColumnName("User Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email");
 
                     b.ToTable("Users", (string)null);
 
@@ -811,7 +812,7 @@ namespace RestaurantReservation.Db.Migrations
                             Email = "john@example.com",
                             Password = "Password123",
                             Role = "Customer",
-                            UserName = "john_doe"
+                            Username = "john_doe"
                         },
                         new
                         {
@@ -819,7 +820,7 @@ namespace RestaurantReservation.Db.Migrations
                             Email = "sarah@example.com",
                             Password = "Password123",
                             Role = "Employee",
-                            UserName = "sarah_smith"
+                            Username = "sarah_smith"
                         },
                         new
                         {
@@ -827,7 +828,7 @@ namespace RestaurantReservation.Db.Migrations
                             Email = "michael@example.com",
                             Password = "Password123",
                             Role = "ResturantBoss",
-                            UserName = "michael_jones"
+                            Username = "michael_jones"
                         },
                         new
                         {
@@ -835,7 +836,7 @@ namespace RestaurantReservation.Db.Migrations
                             Email = "alice@example.com",
                             Password = "Password123",
                             Role = "Admin",
-                            UserName = "alice_johnson"
+                            Username = "alice_johnson"
                         },
                         new
                         {
@@ -843,7 +844,7 @@ namespace RestaurantReservation.Db.Migrations
                             Email = "david@example.com",
                             Password = "Password123",
                             Role = "Customer",
-                            UserName = "david_white"
+                            Username = "david_white"
                         });
                 });
 

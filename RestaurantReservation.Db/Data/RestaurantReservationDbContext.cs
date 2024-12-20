@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RestaurantReservation.Db.Entities;
+using System;
 
 namespace RestaurantReservation.Db.Data
 {
@@ -14,20 +15,22 @@ namespace RestaurantReservation.Db.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<ReservationStatus> ReservationsStatus { get; set; }
         public DbSet<ReservationCustomerRestaurantDetail> ReservationsCustomerRestaurantDetails { get; set; }
         public DbSet<EmployeeRestaurantDetail> EmployeeRestaurantDetails { get; set; }
         public DbSet<CustomerWithPartySizeAbove> CustomersWithPartySizeAbove { get; set; }
         public RestaurantReservationDbContext() { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
+        public RestaurantReservationDbContext(DbContextOptions<RestaurantReservationDbContext> options) : base(options) { }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    base.OnConfiguring(optionsBuilder);
 
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            var conn = config.GetSection("constr").Value;
+        //    var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //    var conn = config.GetSection("constr").Value;
 
-            optionsBuilder.UseSqlServer(conn);
-        }
+        //    optionsBuilder.UseSqlServer(conn);
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

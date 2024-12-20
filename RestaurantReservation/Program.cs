@@ -83,6 +83,22 @@ namespace RestaurantReservation
                 //foreach (var item in result) Console.WriteLine(item);
 
 
+                //var table = new Table { Capacity = 12, RestaurantId = 2 };
+
+                //context.Tables.Add(table);
+
+                //await context.SaveChangesAsync();
+
+                //var result = await new TableRepository(context).GetAvailableTablesAsync();
+
+                //foreach (var item in result) Console.WriteLine(item);
+
+                //Console.ReadLine();
+
+                //context.Tables.Remove(table);
+
+                //await context.SaveChangesAsync();
+
             }
 
             Console.ReadKey();

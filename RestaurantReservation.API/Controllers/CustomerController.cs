@@ -6,7 +6,7 @@ using RestaurantReservation.Db.Entities;
 namespace RestaurantReservation.API.Controllers
 {
     [Route("api/customers")]
-    //[Authorize]
+    [Authorize]
     [ApiController]
     public class CustomerController : ControllerBase
     {

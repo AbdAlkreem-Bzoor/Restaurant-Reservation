@@ -1,0 +1,527 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RestaurantReservation.API</name>
+    </assembly>
+    <members>
+        <member name="M:RestaurantReservation.API.Controllers.AuthenticationController.Login(RestaurantReservation.API.Models.User.LoginRequestDto)">
+            <summary>
+            Processes a login request.
+            </summary>
+            <param name="loginRequest">Login request data.</param>
+            <response code="200">JWT token.</response>
+            <response code="400">If the login credentials are invalid.</response>
+            <response code="401">When user with the provided credentials does not exist.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.AuthenticationController.RegisterUser(RestaurantReservation.API.Models.User.RegisterRequestDto)">
+            <summary>
+            Processes registering a normal user request.
+            </summary>
+            <param name="registerRequest">Registering request data.</param>
+            <returns>JWT token</returns>
+            <response code="200">JWT token.</response>
+            <response code="400">If the register data are invalid or the user name is duplicated.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.AuthenticationController.RegisterAdmin(RestaurantReservation.API.Models.User.RegisterRequestDto)">
+            <summary>
+            Processes registering an admin user request.
+            </summary>
+            <param name="registerRequestDto">Registering request data.</param>
+            <returns>JWT token</returns>
+            <response code="200">JWT token.</response>
+            <response code="400">If the register data are invalid or the user name is duplicated.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.GetCustomers(System.Int32,System.Int32)">
+            <summary>
+            Gets customers partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of customers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.GetCustomer(System.Int32)">
+            <summary>
+            Returns a customer specified by ID.
+            </summary>
+            <param name="id">The ID of the customer to retrieve.</param>
+            <response code="404">If the customer with the given id is not found.</response>
+            <response code="200">Returns the requested customer.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.AddCustomer(RestaurantReservation.API.Models.Customer.CustomerCreationDto)">
+            <summary>
+            Creates a new customer.
+            </summary>
+            <param name="customer">The data of the new customer.</param>
+            <returns>The newly created customer.</returns>
+            <response code="400">If the creation data is invalid.</response>
+            <response code="201">If the customer is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.UpdateCustomer(System.Int32,RestaurantReservation.API.Models.Customer.CustomerUpdateDto)">
+            <summary>
+            Updates an existing customer specified by ID.
+            </summary>
+            <param name="id">The ID of the customer to update.</param>
+            <param name="customer">The data for updating the customer.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the customer with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.PartiallyUpdateCustomer(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Customer.CustomerUpdateDto})">
+            <summary>
+            Partially updates an existing customer specified by ID.
+            </summary>
+            <param name="id">The ID of the customer to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the customer with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.CustomerController.DeleteCustomer(System.Int32)">
+            <summary>
+            Deletes an existing customer specified by ID.
+            </summary>
+            <param name="id">The ID of the customer to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the customer with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.GetEmployees(System.Int32,System.Int32)">
+            <summary>
+            Gets employees partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of employees with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.GetEmployee(System.Int32)">
+            <summary>
+            Returns an employee specified by ID.
+            </summary>
+            <param name="id">The ID of the employee to retrieve.</param>
+            <response code="404">If the employee with the given id is not found.</response>
+            <response code="200">Returns the requested employee.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.AddEmployee(RestaurantReservation.API.Models.Employee.EmployeeCreationDto)">
+            <summary>
+            Creates a new employee.
+            </summary>
+            <param name="employee">The data of the new employee.</param>
+            <returns>The newly created employee.</returns>
+            <response code="400">If the employee data is invalid.</response>
+            <response code="201">If the employee is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.UpdateEmployee(System.Int32,RestaurantReservation.API.Models.Employee.EmployeeUpdateDto)">
+            <summary>
+            Updates an existing employee specified by ID.
+            </summary>
+            <param name="id">The ID of the employee to update.</param>
+            <param name="employee">The data for updating the employee.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the employee with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.PartiallyUpdateEmployee(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Employee.EmployeeUpdateDto})">
+            <summary>
+            Partially updates an existing employee specified by ID.
+            </summary>
+            <param name="id">The ID of the employee to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.DeleteEmployee(System.Int32)">
+            <summary>
+            Deletes an existing employee specified by ID.
+            </summary>
+            <param name="id">The ID of the employee to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the employee with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.GetManagers(System.Int32,System.Int32)">
+            <summary>
+            Gets employees who are managers partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns all employees that are managers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.EmployeeController.GetAverageOrderAmount(System.Int32)">
+            <summary>
+            Returns the average order amount for an employee.
+            </summary>
+            <param name="employeeId">The ID of the employee.</param>
+            <response code="404">If the employee with the given ID is not found.</response>
+            <response code="200">Returns the average order amount of the employee.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.GetMenuItems(System.Int32,System.Int32)">
+            <summary>
+            Gets menu items partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of menu items with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.GetMenuItem(System.Int32)">
+            <summary>
+            Returns a menu item specified by ID.
+            </summary>
+            <param name="id">The ID of the menu item to retrieve.</param>
+            <response code="404">If the menu item with the given id is not found.</response>
+            <response code="200">Returns the requested order.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.AddMenuItem(RestaurantReservation.API.Models.MenuItem.MenuItemCreationDto)">
+            <summary>
+            Creates a new menu item.
+            </summary>
+            <param name="menuItem">The data of the new menu item.</param>
+            <returns>The newly created menu item.</returns>
+            <response code="400">If the creation data is invalid.</response>
+            <response code="201">If the menu item is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.UpdateMenuItem(System.Int32,RestaurantReservation.API.Models.MenuItem.MenuItemUpdateDto)">
+            <summary>
+            Updates an existing menu item specified by ID.
+            </summary>
+            <param name="id">The ID of the menu item to update.</param>
+            <param name="menuItem">The data for updating the menu item.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the menu item with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.PartiallyUpdateMenuItem(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.MenuItem.MenuItemUpdateDto})">
+            <summary>
+            Partially updates an existing menu item specified by ID.
+            </summary>
+            <param name="id">The ID of the menu item to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the menu item with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.MenuItemController.DeleteMenuItem(System.Int32)">
+            <summary>
+            Deletes an existing menu item specified by ID.
+            </summary>
+            <param name="id">The Id of the menu item to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the menu item with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.GetOrders(System.Int32,System.Int32)">
+            <summary>
+            Gets orders partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of orders with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.GetOrder(System.Int32)">
+            <summary>
+            Returns an order specified by ID.
+            </summary>
+            <param name="id">The ID of the order to retrieve.</param>
+            <response code="404">If the order with the given id is not found.</response>
+            <response code="200">Returns the requested order.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.AddOrder(RestaurantReservation.API.Models.Order.OrderCreationDto)">
+            <summary>
+            Creates a new order.
+            </summary>
+            <param name="order">The data of the new order.</param>
+            <returns>The newly created order.</returns>
+            <response code="400">If the creation data is invalid.</response>
+            <response code="201">If the order is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.UpdateOrder(System.Int32,RestaurantReservation.API.Models.Order.OrderUpdateDto)">
+            <summary>
+            Updates an existing order specified by ID.
+            </summary>
+            <param name="id">The ID of the order to update.</param>
+            <param name="order">The data for updating the order.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the order with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.PartiallyUpdateOrder(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Order.OrderUpdateDto})">
+            <summary>
+            Partially updates an existing order specified by ID.
+            </summary>
+            <param name="id">The ID of the order to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the order with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderController.DeleteOrder(System.Int32)">
+            <summary>
+            Deletes an existing order specified by ID.
+            </summary>
+            <param name="id">The Id of the order to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the order with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.GetOrderItems(System.Int32,System.Int32)">
+            <summary>
+            Gets order items for an order partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of order items with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.GetOrderItem(System.Int32)">
+            <summary>
+            Returns an order item specified by ID for an order.
+            </summary>
+            <param name="id">The ID of the order item to retrieve.</param>
+            <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+            <response code="200">Returns the requested table.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.AddOrderItem(RestaurantReservation.API.Models.OrderItem.OrderItemCreationDto)">
+            <summary>
+            Creates a new order item for an order specified by ID.
+            </summary>
+            <param name="orderItem">The data of the new table.</param>
+            <returns>The newly created table.</returns>
+            <response code="400">If the creation Data is invalid.</response>
+            <response code="201">If the table is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.UpdateOrderItem(System.Int32,RestaurantReservation.API.Models.OrderItem.OrderItemUpdateDto)">
+            <summary>
+            Updates an existing order item specified by ID for an order specified by ID.
+            </summary>
+            <param name="id">The ID of the order item to update.</param>
+            <param name="orderItem">The data for updating the order item.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.PartiallyUpdateOrderItem(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.OrderItem.OrderItemUpdateDto})">
+            <summary>
+            Partially updates an existing order item specified by ID for an order specified by ID.
+            </summary>
+            <param name="id">The ID of the table to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.OrderItemController.DeleteOrderItem(System.Int32)">
+            <summary>
+            Deletes an existing order item specified by ID for an order specified by ID.
+            </summary>
+            <param name="id">The ID of the order item to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the table with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.GetReservations(System.Int32,System.Int32)">
+            <summary>
+            Gets reservations partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of employees with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.GetReservation(System.Int32)">
+            <summary>
+            Returns a reservation specified by ID.
+            </summary>
+            <param name="id">The ID of the reservation to retrieve.</param>
+            <response code="404">If the reservation with the given id is not found.</response>
+            <response code="200">Returns the requested reservation.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.AddReservation(RestaurantReservation.API.Models.Reservation.ReservationCreationDto)">
+            <summary>
+            Creates a new reservation.
+            </summary>
+            <param name="reservation">The data of the new reservation.</param>
+            <returns>The newly created reservation.</returns>
+            <response code="400">If the creation data is invalid.</response>
+            <response code="201">If the reservation is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.UpdateReservation(System.Int32,RestaurantReservation.API.Models.Reservation.ReservationUpdateDto)">
+            <summary>
+            Updates an existing reservation specified by ID.
+            </summary>
+            <param name="id">The ID of the reservation to update.</param>
+            <param name="reservation">The data for updating the reservation.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the reservation with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.PartiallyUpdateReservation(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Reservation.ReservationUpdateDto})">
+            <summary>
+            Partially updates an existing reservation specified by ID.
+            </summary>
+            <param name="id">The ID of the reservation to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the restaurant with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.DeleteReservation(System.Int32)">
+            <summary>
+            Deletes an existing reservation specified by ID.
+            </summary>
+            <param name="id">The ID of the reservation to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the reservation with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.GetReservationsForCustomer(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets reservation for a customer specified by ID partitioned into pages.
+            </summary>
+            <param name="customerId">The ID of the customer to get reservations for.</param>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="404">If the reservation with the given id is not found.</response>
+            <response code="200">Returns the requested page of reservations with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.GetOrdersForReservationAsync(System.Int32)">
+            <summary>
+            Gets orders for a reservation specified by ID.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <response code="404">If the reservation with the given id is not found.</response>
+            <response code="200">Returns the requested orders.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.ReservationController.GetMenuItemsForReservationAsync(System.Int32)">
+            <summary>
+            Retrieves ordered menu items for a reservation. 
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <response code="404">If the reservation with the given id is not found.</response>
+            <response code="200">Returns the requested menu items.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.GetRestaurants(System.Int32,System.Int32)">
+            <summary>
+            Gets restaurants partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of restaurants with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.GetRestaurant(System.Int32)">
+            <summary>
+            Returns a restaurant specified by ID.
+            </summary>
+            <param name="id">The ID of the restaurant to retrieve.</param>
+            <response code="404">If the restaurant with the given id is not found.</response>
+            <response code="200">Returns the requested restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.AddRestaurant(RestaurantReservation.API.Models.Restaurant.RestaurantCreationDto)">
+            <summary>
+            Creates a new restaurant.
+            </summary>
+            <param name="restaurant">The data of the new restaurant.</param>
+            <returns>The newly created restaurant.</returns>
+            <response code="400">If the restaurant data is invalid.</response>
+            <response code="201">If the restaurant is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.UpdateRestaurant(System.Int32,RestaurantReservation.API.Models.Restaurant.RestaurantUpdateDto)">
+            <summary>
+            Updates an existing restaurant specified by ID.
+            </summary>
+            <param name="id">The ID of the restaurant to update.</param>
+            <param name="restaurant">The data for updating the restaurant.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the restaurant with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.PartiallyUpdateRestaurant(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Restaurant.RestaurantUpdateDto})">
+            <summary>
+            Partially updates an existing restaurant specified by ID.
+            </summary>
+            <param name="id">The ID of the restaurant to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the restaurant with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.RestaurantController.DeleteRestaurant(System.Int32)">
+            <summary>
+            Deletes an existing restaurant specified by ID.
+            </summary>
+            <param name="id">The ID of the restaurant to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the restaurant with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.GetTables(System.Int32,System.Int32)">
+            <summary>
+            Gets tables partitioned into pages.
+            </summary>
+            <param name="pageNumber">The number of the needed page.</param>
+            <param name="pageSize">The size of the needed page.</param>
+            <response code="400">When pageNumber or pageSize is less than zero.</response>
+            <response code="200">Returns the requested page of tables with pagination metadata in the headers.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.GetTable(System.Int32)">
+            <summary>
+            Returns a table specified by ID.
+            </summary>
+            <param name="id">The ID of the table to retrieve.</param>
+            <response code="404">If the table with the given id is not found.</response>
+            <response code="200">Returns the requested table.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.AddTable(RestaurantReservation.API.Models.Table.TableCreationDto)">
+            <summary>
+            Creates a new table.
+            </summary>
+            <param name="table">The data of the new table.</param>
+            <returns>The newly created table.</returns>
+            <response code="400">If the creation Data is invalid.</response>
+            <response code="201">If the table is created successfully.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.UpdateTable(System.Int32,RestaurantReservation.API.Models.Table.TableUpdateDto)">
+            <summary>
+            Updates an existing table specified by ID.
+            </summary>
+            <param name="id">The ID of the table to update.</param>
+            <param name="table">The data for updating the table.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">If the table with the specified ID is not found.</response>
+            <response code="204">If successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.PartiallyUpdateTable(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.API.Models.Table.TableUpdateDto})">
+            <summary>
+            Partially updates an existing table specified by ID.
+            </summary>
+            <param name="id">The ID of the table to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the table with the specified ID is not found.</response>
+            <response code="204">If the update is successful.</response>
+        </member>
+        <member name="M:RestaurantReservation.API.Controllers.TableController.DeleteTable(System.Int32)">
+            <summary>
+            Deletes an existing table specified by ID.
+            </summary>
+            <param name="id">The Id of the table to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="404">if the table with the specified ID is not found.</response>
+            <response code="204">if the deletion is successful.</response>
+        </member>
+    </members>
+</doc>

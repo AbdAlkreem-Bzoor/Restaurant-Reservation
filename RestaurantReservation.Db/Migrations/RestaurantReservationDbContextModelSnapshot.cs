@@ -783,7 +783,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(15)
+                        .HasMaxLength(500)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Password");
 
@@ -800,7 +800,11 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Email");
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
 
@@ -826,7 +830,7 @@ namespace RestaurantReservation.Db.Migrations
                             Id = 3,
                             Email = "michael@example.com",
                             Password = "Password123",
-                            Role = "ResturantBoss",
+                            Role = "None",
                             UserName = "michael_jones"
                         },
                         new

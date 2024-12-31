@@ -183,7 +183,7 @@ namespace RestaurantReservation.Db.Data
                       UserName = "michael_jones",
                       Email = "michael@example.com",
                       Password = "Password123",
-                      Role = UserRole.ResturantBoss
+                      Role = UserRole.None
                   },
                   new User
                   {

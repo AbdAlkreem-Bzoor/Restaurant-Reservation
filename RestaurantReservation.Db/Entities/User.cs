@@ -10,8 +10,8 @@ namespace RestaurantReservation.Db.Entities
     {
         Customer,
         Employee,
-        ResturantBoss,
-        Admin
+        Admin,
+        None
     }
     public class User
     {

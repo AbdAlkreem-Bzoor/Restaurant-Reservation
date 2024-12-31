@@ -1,69 +1,178 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Asp.Versioning;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantReservation.API.Extensions;
+using RestaurantReservation.API.Models.OrderItem;
 using RestaurantReservation.API.Repositories;
 using RestaurantReservation.Db.Entities;
 
 namespace RestaurantReservation.API.Controllers
 {
-    [Route("api/order-items")]
+    [Route("api/v{version:apiVersion}/order-items")]
     [Authorize]
     [ApiController]
+    [ApiVersion(1.0)]
     public class OrderItemController : ControllerBase
     {
-        private readonly IRestaurantReservationRepository _repository;
-        public OrderItemController(IRestaurantReservationRepository repository)
+        private readonly IOrderItemRepository _repository;
+        private readonly IMapper _mapper;
+        public OrderItemController(IOrderItemRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
-
+        /// <summary>
+        /// Gets order items for an order partitioned into pages.
+        /// </summary>
+        /// <param name="pageNumber">The number of the needed page.</param>
+        /// <param name="pageSize">The size of the needed page.</param>
+        /// <response code="400">When pageNumber or pageSize is less than zero.</response>
+        /// <response code="200">Returns the requested page of order items with pagination metadata in the headers.</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderItem>>> GetOrderItemsAsync()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<OrderItemResponseDto>>> GetOrderItems(int pageNumber = 1, int pageSize = 10)
         {
-            return Ok(await _repository.GetOrderItemsAsync());
+            if (pageNumber < 1 || pageSize < 1)
+            {
+                return BadRequest($"page number and page size must be greater than 0.");
+            }
+            return Ok(_mapper.Map<IEnumerable<OrderItemResponseDto>>((await _repository.GetOrderItemsAsync()).GetPage(pageNumber, pageSize)));
         }
-        [HttpGet("{orderItemId}")]
-        public async Task<ActionResult<OrderItem>> GetOrderItemAsync(int orderItemId)
+        /// <summary>
+        /// Returns an order item specified by ID for an order.
+        /// </summary>
+        /// <param name="id">The ID of the order item to retrieve.</param>
+        /// <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+        /// <response code="200">Returns the requested table.</response>
+        [HttpGet("{id}", Name = "GetOrderItem")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<OrderItemResponseDto>> GetOrderItem(int id)
         {
-            var orderItem = await _repository.GetOrderItemAsync(orderItemId);
+            var orderItem = await _repository.GetOrderItemAsync(id);
+
             if (orderItem is null)
             {
                 return NotFound();
             }
-            return Ok(orderItem);
+
+            return Ok(_mapper.Map<OrderItemResponseDto>(orderItem));
         }
+        /// <summary>
+        /// Creates a new order item for an order specified by ID.
+        /// </summary>
+        /// <param name="orderItem">The data of the new table.</param>
+        /// <returns>The newly created table.</returns>
+        /// <response code="400">If the creation Data is invalid.</response>
+        /// <response code="201">If the table is created successfully.</response>
         [HttpPost]
-        public async Task<ActionResult<bool>> AddOrderItemAsync(OrderItem orderItem)
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<OrderItemResponseDto>> AddOrderItem(OrderItemCreationDto orderItem)
         {
-            var result = await _repository.AddOrderItemAsync(orderItem);
+            var orderToAdd = _mapper.Map<OrderItem>(orderItem);
+
+            var result = await _repository.AddOrderItemAsync(orderToAdd);
+
             if (!result)
             {
-                return Conflict(new { Message = "The OrderItem already exist." });
+                return BadRequest(new { Message = "The OrderItem already exist." });
             }
+
             await _repository.SaveChangesAsync();
-            return Ok(result);
+
+            return CreatedAtRoute("GetOrderItem", new { id = orderToAdd?.OrderItemId },
+                                  _mapper.Map<OrderItemResponseDto>(orderToAdd));
         }
-        [HttpPut]
-        public async Task<ActionResult<bool>> UpdateOrderItemAsync(OrderItem orderItem)
+        /// <summary>
+        /// Updates an existing order item specified by ID for an order specified by ID.
+        /// </summary>
+        /// <param name="id">The ID of the order item to update.</param>
+        /// <param name="orderItem">The data for updating the order item.</param>
+        /// <returns>No content if successful.</returns>
+        /// <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+        /// <response code="204">If successful.</response>
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateOrderItem(int id, OrderItemUpdateDto orderItem)
         {
-            var result = await _repository.UpdateOrderItemAsync(orderItem);
-            if (!result)
+            var orderItemToUpdate = await _repository.GetOrderItemAsync(id);
+
+            if (orderItemToUpdate is null)
             {
-                return Conflict(new { Message = "The OrderItem doesn't exist." });
+                return NotFound();
             }
+
+            _mapper.Map(orderItem, orderItemToUpdate);
+
             await _repository.SaveChangesAsync();
-            return Ok(result);
+
+            return NoContent();
         }
-        [HttpDelete("{orderItemId}")]
-        public async Task<ActionResult<bool>> DeleteOrderItemAsync(int orderItemId)
+        /// <summary>
+        /// Partially updates an existing order item specified by ID for an order specified by ID.
+        /// </summary>
+        /// <param name="id">The ID of the table to update.</param>
+        /// <param name="patchDocument">The JSON patch document with partial update operations.</param>
+        /// <returns>No content if successful.</returns>
+        /// <response code="400">If the patch document or updated data is invalid.</response>
+        /// <response code="404">If the order with the given id or an order item with the given ID for the order is not found.</response>
+        /// <response code="204">If successful.</response>
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> PartiallyUpdateOrderItem(int id,
+            JsonPatchDocument<OrderItemUpdateDto> patchDocument)
         {
-            var result = await _repository.DeleteOrderItemAsync(orderItemId);
+            var orderItem = await _repository.GetOrderItemAsync(id);
+
+            if (orderItem is null)
+            {
+                return NotFound();
+            }
+
+            var orderItemToPatch = _mapper.Map<OrderItemUpdateDto>(orderItem);
+
+            patchDocument.ApplyTo(orderItemToPatch, ModelState);
+
+            if (!ModelState.IsValid || !TryValidateModel(orderItemToPatch))
+            {
+                return BadRequest(ModelState);
+            }
+
+            _mapper.Map(orderItemToPatch, orderItem);
+
+            await _repository.SaveChangesAsync();
+
+            return NoContent();
+        }
+        /// <summary>
+        /// Deletes an existing order item specified by ID for an order specified by ID.
+        /// </summary>
+        /// <param name="id">The ID of the order item to delete.</param>
+        /// <returns>No content if successful.</returns>
+        /// <response code="404">if the table with the specified ID is not found.</response>
+        /// <response code="204">if the deletion is successful.</response>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteOrderItem(int id)
+        {
+            var result = await _repository.DeleteOrderItemAsync(id);
+
             if (!result)
             {
-                return Conflict(new { Message = "The OrderItem doesn't exist." });
+                return NotFound();
             }
+
             await _repository.SaveChangesAsync();
-            return Ok(result);
+
+            return NoContent();
         }
     }
 }

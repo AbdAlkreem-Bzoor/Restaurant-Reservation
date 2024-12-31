@@ -2,7 +2,7 @@
 
 namespace RestaurantReservation.API.Repositories
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeRepository : IRepository
     {
         Task<IEnumerable<Employee>> GetEmployeesAsync();
         Task<Employee?> GetEmployeeAsync(int id);
@@ -10,5 +10,6 @@ namespace RestaurantReservation.API.Repositories
         Task<bool> UpdateEmployeeAsync(Employee employee);
         Task<bool> DeleteEmployeeAsync(int id);
         Task<decimal> CalculateAverageOrderAmountAsync(int employeeId);
+        Task<IEnumerable<Employee>> ListManagersAsync();
     }
 }

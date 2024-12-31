@@ -3,7 +3,7 @@ using RestaurantReservation.Db.Entities;
 
 namespace RestaurantReservation.API.Repositories
 {
-    public interface IReservationRepository
+    public interface IReservationRepository : IRepository
     {
         Task<IEnumerable<Reservation>> GetReservationsAsync();
         Task<Reservation?> GetReservationAsync(int id);

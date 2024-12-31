@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.Db.Data;
 using RestaurantReservation.Db.Entities;
 using System.Collections.Generic;
@@ -6,17 +7,27 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace RestaurantReservation.API.Repositories
 {
-    public class RestaurantReservationRepository : IRestaurantReservationRepository
+    public class ApplicationRepository : IApplicationRepository
     {
-        private readonly ILogger<RestaurantReservationRepository> _logger;
+        private readonly ILogger<ApplicationRepository> _logger;
         private readonly RestaurantReservationDbContext _database;
-        public RestaurantReservationRepository(RestaurantReservationDbContext database,
-            ILogger<RestaurantReservationRepository> logger)
+        private readonly IPasswordHasher<User> _passwordHasher;
+        public ApplicationRepository(RestaurantReservationDbContext database,
+            ILogger<ApplicationRepository> logger, IPasswordHasher<User> passwordHasher)
         {
             _database = database;
             _logger = logger;
+            _passwordHasher = passwordHasher;
         }
         #region Customer
+        public async Task<bool> IsCustomerExistByEmail(string email)
+        {
+            return await _database.Customers.AnyAsync(x => x.Email == email);
+        }
+        public async Task<Customer?> GetCustomerByEmailAsync(string email)
+        {
+            return await _database.Customers.FirstOrDefaultAsync(x => x.Email == email);
+        }
         public async Task<bool> AddCustomerAsync(Customer customer)
         {
             if (await _database.Customers.AnyAsync(x => x.CustomerId == customer.CustomerId))
@@ -474,6 +485,7 @@ namespace RestaurantReservation.API.Repositories
                 _logger.LogInformation($"User already exist {user}");
                 return false;
             }
+            user.Password = _passwordHasher.HashPassword(user, user.Password);
             await _database.Users.AddAsync(user);
             return true;
         }
@@ -515,6 +527,31 @@ namespace RestaurantReservation.API.Repositories
             databaseUser.Email = user.Email;
 
             return true;
+        }
+        public async Task<int> GetUserId(string userName, string password)
+        {
+            var user = await _database.Users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
+            if (user is null)
+            {
+                return -1;
+            }
+            return user.Id;
+        }
+        public async Task<User?> AuthenticateAsync(string userName, string password)
+        {
+            var user = await _database.Users.FirstOrDefaultAsync(x => x.UserName == userName);
+
+            if (user is null)
+            {
+                return null;
+            }
+            var result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+
+            return result == PasswordVerificationResult.Failed ? null : user;
+        }
+        public async Task<bool> IsUserExistByUserName(string userName)
+        {
+            return await _database.Users.AnyAsync(x => x.UserName == userName);
         }
         #endregion
         public async Task<bool> SaveChangesAsync()

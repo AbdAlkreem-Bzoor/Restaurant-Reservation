@@ -41,7 +41,7 @@ namespace RestaurantReservation.Db.Data.Config
             builder.Property(x => x.Password)
                    .HasColumnType("VARCHAR")
                    .HasColumnName("Password")
-                   .HasMaxLength(15);
+                   .HasMaxLength(500);
         }
 
         private static void ConfigureEmail(EntityTypeBuilder<User> builder)
@@ -51,7 +51,8 @@ namespace RestaurantReservation.Db.Data.Config
                    .HasMaxLength(320)
                    .IsRequired();
 
-            builder.HasIndex(x => x.Email);
+            builder.HasIndex(x => x.Email)
+                   .IsUnique();
         }
 
         private static void ConfigureName(EntityTypeBuilder<User> builder)
@@ -60,6 +61,9 @@ namespace RestaurantReservation.Db.Data.Config
                    .HasColumnName("User Name")
                    .HasMaxLength(45)
                    .IsRequired();
+
+            builder.HasIndex(x => x.UserName)
+                   .IsUnique();
         }
 
         private static void ConfigurePK(EntityTypeBuilder<User> builder)

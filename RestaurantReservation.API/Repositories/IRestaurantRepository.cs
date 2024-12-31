@@ -2,7 +2,7 @@
 
 namespace RestaurantReservation.API.Repositories
 {
-    public interface IRestaurantRepository
+    public interface IRestaurantRepository : IRepository
     {
         Task<IEnumerable<Restaurant>> GetRestaurantsAsync();
         Task<Restaurant?> GetRestaurantAsync(int id);

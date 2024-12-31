@@ -2,7 +2,7 @@
 
 namespace RestaurantReservation.API.Repositories
 {
-    public interface IRestaurantReservationRepository : ICustomerRepository, 
+    public interface IApplicationRepository : ICustomerRepository, 
                                                         IEmployeeRepository, 
                                                         IMenuItemRepository,
                                                         IOrderRepository,
@@ -12,6 +12,6 @@ namespace RestaurantReservation.API.Repositories
                                                         ITableRepository,
                                                         IUserRepository
     {
-        Task<bool> SaveChangesAsync();
+
     }
 }
